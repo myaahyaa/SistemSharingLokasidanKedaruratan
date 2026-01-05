@@ -1,0 +1,67 @@
+from RPLCD import i2c
+#from time import sleep
+from RPLCD.i2c import CharLCD
+lcd = CharLCD('PCF8574', 0x27)
+
+def timur():
+    TIMUR00 = (
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b00000,
+        0b10000
+    )
+    TIMUR01 = (
+        0b11000,
+        0b11100,
+        0b11110,
+        0b11111,
+        0b11110,
+        0b11100,
+        0b11000,
+        0b10000
+    )
+    TIMUR02 = (
+        0b00000,
+        0b00000,
+        0b11111,
+        0b11111,
+        0b11111,
+        0b00000,
+        0b00000,
+        0b00000
+    )
+
+    TIMUR03 = (
+        0b00000,
+        0b00000,
+        0b11111,
+        0b11111,
+        0b11111,
+        0b00000,
+        0b00000,
+        0b00000
+    )
+
+    # Create custom characters, starting from index 4
+    lcd.create_char(4, TIMUR00)
+    lcd.create_char(5, TIMUR01)
+    lcd.create_char(6, TIMUR02)
+    lcd.create_char(7, TIMUR03)
+
+    # Display the "Timur" arrow on the LCD
+    # Adjust cursor_pos as needed for your display layout
+    lcd.cursor_pos = (0, 19) # Top-left corner for the "east" arrow
+    lcd.write_string('\x04') # Use the custom character at index 4
+
+    lcd.cursor_pos = (1, 19) # Place the arrow on the second row
+    lcd.write_string('\x05') # Left part of the arrow
+    lcd.cursor_pos = (1, 18)
+    lcd.write_string('\x06') # Middle part of the arrow
+    lcd.cursor_pos = (1, 17)
+    lcd.write_string('\x07') # Right part of the arrow
+
+timur()
